@@ -8,7 +8,7 @@ $allowed_origins = [
 ];
 
 if(in_array($origin, $allowed_origins)){
-    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Origin: $origin");
     header("Access-Control-Allow-Credentials: true");
 }
 
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 $db_host = getenv('DB_HOST') ?: "localhost";
-$db_user = getevn('DB_USER') ?: "root";
+$db_user = getenv('DB_USER') ?: "root";
 $db_pass = getenv('DB_PASS') ?: "";
 $db_name = getenv('DB_NAME') ?: "residents_db";
 $db_port = getenv('DB_PORT') ?: "3306";
