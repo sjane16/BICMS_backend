@@ -2,12 +2,12 @@
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
 if (preg_match('/^http:\/\/(localhost|127\.0\.0\.1):\d+$/', $origin) ||
-    $origin === 'https://bicms.example.com') {
+    $origin === 'https://bicms.vercel.app') {
     header("Access-Control-Allow-Origin: $origin");
     header("Access-Control-Allow-Credentials: true");
 }
 
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Content-Type: application/json");
 
