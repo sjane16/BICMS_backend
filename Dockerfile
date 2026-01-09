@@ -31,5 +31,13 @@ RUN composer install --no-interaction --optimize-autoloader
 # 7. Set permissions for your uploads folder
 RUN mkdir -p /var/www/html/uploads && chmod -R 777 /var/www/html/uploads
 
+# Create the mPDF temporary directory and make it writable
+RUN mkdir -p /var/www/html/vendor/mpdf/mpdf/tmp \
+    && chmod -R 777 /var/www/html/vendor/mpdf/mpdf/tmp
+
+# Ensure the main vendor folder and uploads folder are also writable
+RUN chmod -R 777 /var/www/html/vendor \
+    && chmod -R 777 /var/www/html/uploads
+
 # Tell the server to listen on port 80
 EXPOSE 80
