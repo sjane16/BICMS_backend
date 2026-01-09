@@ -4,7 +4,7 @@ $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 $allowed_origins = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
-    'https://bicms.example.com'
+    'https://bicms.vercel.app'
 ];
 
 if (in_array($origin, $allowed_origins)) {
