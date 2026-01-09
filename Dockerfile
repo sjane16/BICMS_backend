@@ -1,23 +1,34 @@
 # Use the official PHP image with Apache
 FROM php:8.2-apache
 
-# 1. Install the MySQL extension
-RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+# 1. Install system dependencies for GD and other tools
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    unzip \
+    git \
+    curl
 
-# 2. Set the working directory
+# 2. Install and configure PHP extensions (mysqli and GD)
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install mysqli gd \
+    && docker-php-ext-enable mysqli gd
+
+# 3. Set the working directory
 WORKDIR /var/www/html
 
-# 3. COPY your files into the container FIRST
-# This moves composer.json and your code into /var/www/html
+# 4. COPY your files into the container
 COPY . /var/www/html/
 
-# 4. Install Composer
+# 5. Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# 5. NOW run composer install (it will find the composer.json file now)
+# 6. NOW run composer install
 RUN composer install --no-interaction --optimize-autoloader
 
-# 6. Set permissions for your uploads folder
+# 7. Set permissions for your uploads folder
 RUN mkdir -p /var/www/html/uploads && chmod -R 777 /var/www/html/uploads
 
 # Tell the server to listen on port 80
