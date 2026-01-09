@@ -28,6 +28,15 @@ require_once __DIR__ . '/config/residents_db.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
 
+session_set_cookie_params([
+    'lifetime' => 86400,
+    'path' => '/',
+    'domain' => 'bicms-backend.onrender.com', 
+    'secure' => true,     
+    'httponly' => true,   
+    'samesite' => 'None', 
+]);
+
 session_start();
 
 if(!isset($_SESSION['user_id'])){

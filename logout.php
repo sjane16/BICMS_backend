@@ -21,13 +21,20 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_set_cookie_params([
+    'lifetime' => 86400,
+    'path' => '/',
+    'domain' => 'bicms-backend.onrender.com', 
+    'secure' => true,     
+    'httponly' => true,   
+    'samesite' => 'None', 
+]);
 
 
 session_start();
 
 $_SESSION=[];
 
-session_destroy();
 
 if(ini_get("session.use_cookies")){
     $param = session_get_cookie_params();
@@ -36,6 +43,9 @@ if(ini_get("session.use_cookies")){
         $param["secure"], $param["httponly"]
     );
 }
+
+session_destroy();
+
 
 echo json_encode(["success" => true, "message" => "Logout successfully!"]);
 ?>

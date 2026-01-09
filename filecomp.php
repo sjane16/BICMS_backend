@@ -27,6 +27,15 @@ require_once __DIR__ . "/config/residents_db.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
+session_set_cookie_params([
+    'lifetime' => 86400,
+    'path' => '/',
+    'domain' => 'bicms-backend.onrender.com', // Your Render URL
+    'secure' => true,     // Required for cross-site
+    'httponly' => true,   // Security best practice
+    'samesite' => 'None', // Required for Vercel -> Render communication
+]);
+
 session_start();
 
 if(!isset($_SESSION['user_id'])){

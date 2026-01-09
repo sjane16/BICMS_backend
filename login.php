@@ -46,6 +46,15 @@ if($check->num_rows === 1){
     if(password_verify($password, $hashedpassword)){
         $fullname = $firstname . " " . $lastname;
 
+        session_set_cookie_params([
+            'lifetime' => 86400,
+            'path' => '/',
+            'domain' => 'bicms-backend.onrender.com', 
+            'secure' => true,     
+            'httponly' => true,   
+            'samesite' => 'None', 
+        ]);
+
         session_start();
         $_SESSION['user_id'] = $userID;
         $_SESSION['fullname'] = $fullname;

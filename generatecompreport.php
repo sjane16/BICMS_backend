@@ -22,6 +22,15 @@ error_reporting(E_ALL);
 require_once __DIR__ . '/config/residents_db.php';
 require_once __DIR__ . '/vendor/autoload.php';
 
+session_set_cookie_params([
+    'lifetime' => 86400,
+    'path' => '/',
+    'domain' => 'bicms-backend.onrender.com', 
+    'secure' => true,     
+    'httponly' => true,   
+    'samesite' => 'None', 
+]);
+
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
