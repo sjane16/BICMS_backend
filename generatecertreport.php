@@ -128,7 +128,14 @@ $remark = "Most requested certificates were " . implode(" and ", $top) . ".";
 
 $resolutionrate = $total_certificates > 0 ? ($total_claimed/$total_certificates) * 100 : 0;
 
+$customTempDir = '/tmp/mpdf';
+
+if(!file_exists($customTempDir)){
+    mkdir($customTempDir, 0777, true);
+}
+
 $pdf = new \Mpdf\Mpdf([
+    'tempDir' => $customTempDir,
     'format' => 'A4',
     'margin_left' => 20,
     'margin_right' => 20,

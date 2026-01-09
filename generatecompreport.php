@@ -121,7 +121,14 @@ $top = array_slice(array_keys($types), 0, 2);
 $remark = "Most complaints were about " . implode(" and ", $top) . ".";
 $resolutionrate = $total_complaints > 0 ? ($total_resolved / $total_complaints) * 100 : 0;
 
+$customTempDir = '/tmp/mpdf';
+
+if(!file_exists($customTempDir)){
+    mkdir($customTempDir, 0777, true);
+}
+
 $pdf = new \Mpdf\Mpdf([
+    'tempDir' => $customTempDir,
     'format'       => 'A4',
     'margin_left'  => 20,
     'margin_right' => 20,

@@ -37,7 +37,14 @@ function ordinal($day){
 
 $finalday = ordinal($day);
 
+$customTempDir = '/tmp/mpdf';
+
+if(!file_exists($customTempDir)){
+    mkdir($customTempDir, 0777, true);
+}
+
 $pdf = new \Mpdf\Mpdf([
+    'tempDir' => $customTempDir,
     'format' => 'A4',
     'margin_left' => 20,
     'margin_right' => 20,
