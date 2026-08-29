@@ -67,10 +67,12 @@ $result = $search->get_result();
 $complaints = [];
 
 while($row = $result->fetch_assoc()){
+    $raw_status = $row['complaint_status'] ?? '';
+    $display_status = (strtolower($raw_status) === 'dismissed') ? 'escalated' : $raw_status;
     $complaints[] = [
         "subject" => $row['subject'],
         "date" => $row['submitted_on'],
-        "status" => $row['complaint_status']
+        "status" => $display_status ?: 'Pending'
     ];
 }
 
