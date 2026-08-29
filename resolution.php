@@ -9,7 +9,6 @@ require_once __DIR__ . '/config/residents_db.php';
 $data = json_decode(file_get_contents("php://input"), true);
 
 $compID = isset($data['complaint_id']) ? intval($data['complaint_id']): null;
-$complaint_status = !empty($data['complaint_status']) ? $data['complaint_status'] : null;
 $res_type = isset($data['resolution_type']) ? $data['resolution_type'] : null;
 $agreement_date = isset($data['agreement_date']) ? $data['agreement_date'] : null;
 $terms_condi = !empty($data['TaC']) ? $data['TaC'] : null;
