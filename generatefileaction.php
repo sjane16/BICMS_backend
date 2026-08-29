@@ -82,7 +82,7 @@ $html .= "</div>";
 
 $pdf->WriteHTML($html);
 
-$filename = "Certificate_{$data['name']}.pdf";
+$filename = "Certificate_{'$complainant_name'}.pdf";
 
 $pdf->Output($filename, 'I');
 ?>
