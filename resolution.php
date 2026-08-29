@@ -99,7 +99,7 @@ if($insert_resol->execute()){
     $response['message'] = "Resolution saved successfully";
 }else{
     $response['success'] = false;
-    $response['message'] = "Resolution can't be save";
+    $response['message'] = "Resolution can't be save: " . $insert_resol->error;
 }
 
 $update_complaints = $conn->prepare("UPDATE complaints SET complaint_status = ? WHERE complaint_id = ?");
@@ -110,7 +110,7 @@ if($update_complaints->execute()){
      $response['message'] = "Update saved";
 }else{
     $response['success'] = false;
-     $response['message'] = "Update fail";
+     $response['message'] = "Update fail: " . $update_complaints->error;
 }
 
 echo json_encode($response);
