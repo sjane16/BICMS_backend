@@ -14,7 +14,7 @@ $query = "SELECT
 c.complaint_id AS id,
 c.subject,
 c.type,
-c.description,
+c.description AS complaint_desc,
 c.assigned_to,
 c.complaint_status,
 c.submitted_on,
@@ -38,7 +38,7 @@ res.resolution_date,
 res.compliance_date,
 res.actualcompliance_date,
 res.amount,
-res.description,
+res.description AS resolution_desc,
 res.resolution_status
 FROM complaints c
 JOIN residents r ON c.resident_ID = r.resident_ID
@@ -46,48 +46,47 @@ LEFT JOIN resolutions res ON c.complaint_id = res.complaint_id
 WHERE c.submitted_on >= DATE_SUB(NOW(), INTERVAL 2 MONTH)
 ORDER BY c.submitted_on DESC";
 
+$complaints = [];
+$result = $conn->query($query);
 
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $raw_status = $row['complaint_status'] ?? '';
+        $display_status = (strtolower($raw_status) === 'dismissed') ? 'Escalated' : $raw_status;
 
-
- $complaints = [];
-
- $result = $conn->query($query);
-
- if($result && $result->num_rows > 0){
-    while($row = $result->fetch_assoc()){
         $complaints[] = [
             "fullname" => $row['fullname'],
             "contact" => $row['contact'],
             "address" => $row['address'],
             "type" => $row['type'],
-            "description" => $row['description'],
+            "description" => $row['complaint_desc'] ?? '',
             "date" => $row['submitted_on'],
-            "id" =>$row['id'],
+            "id" => $row['id'],
             "subject" => $row['subject'],
-            "status" => $row['complaint_status'],
+            "status" => $display_status ?: 'Pending',
             "assigned_to" => $row['assigned_to'],
             "respondent_name" => $row['respondent_fullname'],
             "relationship" => $row['relationship'] ?? 'N/A',
             "respondent_address" => $row['respondent_address'] ?? 'N/A',
-            "incident_date" =>$row['incident_date'],
-            "resolution_type" =>$row['resolution_type'],
-            "Terms_Conditions" =>$row['Terms_Conditions'],
-            "payment_type" =>$row['payment_type'],
-            "resolution_date" =>$row['resolution_date'],
-            "compliance_date" =>$row['compliance_date'],
-            "actualcompliance_date" =>$row['actualcompliance_date'],
-            "amount" =>$row['amount'],
-            "description" =>$row['description'],
-            "resolution_status" =>$row['resolution_status']
+            "incident_date" => $row['incident_date'],
+            "resolution_type" => $row['resolution_type'],
+            "Terms_Conditions" => $row['Terms_Conditions'],
+            "payment_type" => $row['payment_type'],
+            "resolution_date" => $row['resolution_date'],
+            "compliance_date" => $row['compliance_date'],
+            "actualcompliance_date" => $row['actualcompliance_date'],
+            "amount" => $row['amount'],
+            "resolution_desc" => $row['resolution_desc'] ?? '',
+            "resolution_status" => $row['resolution_status']
         ];
     }
- }
-
- if (!$result) {
-    echo json_encode(["error" => $conn->error]);
 }
 
+if (!$result) {
+    echo json_encode(["error" => $conn->error]);
+    exit;
+}
 
- echo json_encode($complaints);
- $conn->close();
+echo json_encode($complaints);
+$conn->close();
 ?>
