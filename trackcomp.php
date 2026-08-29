@@ -52,7 +52,7 @@ $result = $conn->query($query);
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $raw_status = $row['complaint_status'] ?? '';
-        $display_status = (strtolower($raw_status) === 'dismissed') ? 'Escalated' : $raw_status;
+        $display_status = (strtolower($raw_status) === 'dismissed') ? 'escalated' : $raw_status;
 
         $complaints[] = [
             "fullname" => $row['fullname'],
