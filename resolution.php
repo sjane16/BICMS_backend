@@ -28,7 +28,7 @@ $others_desc = isset($data['others_desc']) ? $data['others_desc'] : null;
 $withdrawal_date = isset($data['withdrawal_date']) ? $data['withdrawal_date'] : null;
 $issuance_date = isset($data['issuance_date']) ? $data['issuance_date'] : null;
 $resolution_status = ucwords(strtolower($data['resolution_status'] ?? ''));
-$complaint_status = isset($data['complaint_status']) ? $data['complaint_status'] : null;
+$complaint_status = !empty($data['complaint_status']) ? $data['complaint_status'] : null;
 
 $resolution_date = null;
 $compliance_date = null;
